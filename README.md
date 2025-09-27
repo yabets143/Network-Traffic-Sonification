@@ -7,7 +7,9 @@ A system that converts real-time network traffic data into an audible soundscape
 
 This project transforms network activity into an immersive audio experience, allowing you to "hear" your network traffic. By mapping packet characteristics to sound parameters, you can monitor network behavior through audio cues rather than visual interfaces.
 
-Core Features
+## Core Features
+
+
 Real-time packet capture from your network interface
 
 Customizable sound mappings for different protocols and packet attributes
@@ -55,15 +57,17 @@ pip install scapy pygame numpy
 
 ### Basic Usage
 
-for windows replace the GUID with yours on line 13 on the sonify.py 
+⚠ for windows replace the GUID with yours on line 13 on the sonify.py 
 
 to find your specific default Wi-Fi interface GUID
 on powershell 
 ```powershell
 netsh wlan show interfaces
 ```
+then copy the GUID value
 
 
+Basic Usage
 ```
 # Start monitoring with default settings (requires Admin privileges)
 python sonify.py
@@ -81,6 +85,7 @@ python sonify.py -c 100                # Capture 100 packets
 # Quiet mode (sound only, minimal output)
 python sonify.py -v quiet
 ```
+
 
 
 
