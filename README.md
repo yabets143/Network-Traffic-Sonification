@@ -20,3 +20,57 @@ Aggregate sonification modes to prevent audio clutter
 
 Configurable parameters via command-line interface
 
+
+## 🚀 Quick Start
+
+
+
+
+Clone the repository
+
+```bash
+git clone <repository-url>
+cd Network-Traffic-Sonification
+```
+
+Create a virtual environment (Recommended)
+
+```bash
+# Windows
+python -m venv env
+env\Scripts\activate
+
+# Linux/Mac
+python -m venv env
+source env/bin/activate
+```
+
+Prerequisites
+
+### Install required packages
+
+```
+pip install scapy pygame numpy
+```
+
+### Basic Usage
+```
+# Start monitoring with default settings (requires Admin privileges)
+python sonify.py
+```
+
+```
+# Monitor only specific traffic
+python network_sonification.py -f "tcp port 80"      # HTTP only
+python network_sonification.py -f "icmp"             # Ping traffic only
+python network_sonification.py -f "udp port 53"      # DNS queries only
+
+# Limit capture to specific number of packets
+python network_sonification.py -c 100                # Capture 100 packets
+
+# Quiet mode (sound only, minimal output)
+python network_sonification.py -v quiet
+```
+
+
+
