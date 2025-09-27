@@ -54,6 +54,16 @@ pip install scapy pygame numpy
 ```
 
 ### Basic Usage
+
+for windows replace the GUID with yours on line 13 on the sonify.py 
+
+to find your specific default Wi-Fi interface GUID
+on powershell 
+```powershell
+netsh wlan show interfaces
+```
+
+
 ```
 # Start monitoring with default settings (requires Admin privileges)
 python sonify.py
@@ -71,6 +81,7 @@ python sonify.py -c 100                # Capture 100 packets
 # Quiet mode (sound only, minimal output)
 python sonify.py -v quiet
 ```
+
 
 
 
