@@ -61,16 +61,17 @@ python sonify.py
 
 ```
 # Monitor only specific traffic
-python network_sonification.py -f "tcp port 80"      # HTTP only
-python network_sonification.py -f "icmp"             # Ping traffic only
-python network_sonification.py -f "udp port 53"      # DNS queries only
+python sonify.py -f "tcp port 80"      # HTTP only
+python sonify -f "icmp"             # Ping traffic only
+python sonify.py -f "udp port 53"      # DNS queries only
 
 # Limit capture to specific number of packets
-python network_sonification.py -c 100                # Capture 100 packets
+python sonify.py -c 100                # Capture 100 packets
 
 # Quiet mode (sound only, minimal output)
-python network_sonification.py -v quiet
+python sonify.py -v quiet
 ```
+
 
 
 
