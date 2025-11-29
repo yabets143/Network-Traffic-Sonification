@@ -40,6 +40,10 @@ def get_default_interface():
 # Auto-detect default interface or use placeholder for manual configuration
 DEFAULT_IFACE = get_default_interface() or r"{YOUR-INTERFACE-GUID-HERE}"
 
+# Configuration constants
+PPS_WINDOW_SECONDS = 5  # Time window for calculating packets per second
+PACKET_SIZE_MODULATION_FACTOR = 200  # Divisor for packet size to frequency modulation
+
 
 class TrafficStatistics:
     def __init__(self, window_size=10):
@@ -64,10 +68,10 @@ class TrafficStatistics:
         current_time = time.time()
         elapsed = current_time - self.start_time
 
-        # Calculate packets per second (last 5 seconds)
+        # Calculate packets per second using configured window
         recent_packets = [ts for ts, proto in self.recent_packets
-                          if current_time - ts <= 5]
-        pps = len(recent_packets) / 5 if recent_packets else 0
+                          if current_time - ts <= PPS_WINDOW_SECONDS]
+        pps = len(recent_packets) / PPS_WINDOW_SECONDS if recent_packets else 0
 
         return {
             'total_packets': self.packet_count,
@@ -79,14 +83,16 @@ class TrafficStatistics:
 
 class ProtocolIdentifier:
     def __init__(self):
-        self.port_protocol_map = {
-            # TCP ports
+        # TCP port to protocol mapping
+        self.tcp_port_map = {
             20: "FTP_DATA", 21: "FTP", 22: "SSH", 23: "TELNET",
             25: "SMTP", 53: "DNS", 80: "HTTP", 110: "POP3",
             143: "IMAP", 443: "HTTPS", 993: "IMAPS", 995: "POP3S",
-            3306: "MySQL", 3389: "RDP", 5432: "PostgreSQL",
-            # UDP ports
-            67: "DHCP", 68: "DHCP", 69: "TFTP",
+            3306: "MySQL", 3389: "RDP", 5432: "PostgreSQL"
+        }
+        # UDP port to protocol mapping
+        self.udp_port_map = {
+            53: "DNS", 67: "DHCP", 68: "DHCP", 69: "TFTP",
             123: "NTP", 161: "SNMP", 162: "SNMP", 514: "SYSLOG",
             1900: "SSDP", 5353: "mDNS"
         }
@@ -120,11 +126,11 @@ class ProtocolIdentifier:
     def _identify_tcp_protocol(self, packet):
         tcp = packet[TCP]
 
-        # Check common ports first
-        if tcp.dport in self.port_protocol_map:
-            return self.port_protocol_map[tcp.dport]
-        if tcp.sport in self.port_protocol_map:
-            return self.port_protocol_map[tcp.sport]
+        # Check common TCP ports first
+        if tcp.dport in self.tcp_port_map:
+            return self.tcp_port_map[tcp.dport]
+        if tcp.sport in self.tcp_port_map:
+            return self.tcp_port_map[tcp.sport]
 
         # HTTP detection by payload
         if packet.haslayer(Raw):
@@ -143,10 +149,11 @@ class ProtocolIdentifier:
     def _identify_udp_protocol(self, packet):
         udp = packet[UDP]
 
-        if udp.dport in self.port_protocol_map:
-            return self.port_protocol_map[udp.dport]
-        if udp.sport in self.port_protocol_map:
-            return self.port_protocol_map[udp.sport]
+        # Check UDP ports
+        if udp.dport in self.udp_port_map:
+            return self.udp_port_map[udp.dport]
+        if udp.sport in self.udp_port_map:
+            return self.udp_port_map[udp.sport]
 
         return "UDP"
 
@@ -255,7 +262,7 @@ class SoundManager:
 
             # Modify frequency based on packet size
             if packet_size:
-                frequency = frequency + (packet_size / 200)
+                frequency = frequency + (packet_size / PACKET_SIZE_MODULATION_FACTOR)
 
             # Generate the wave
             duration = 0.3  # Pleasant duration
