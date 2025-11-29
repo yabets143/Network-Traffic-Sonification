@@ -1,24 +1,32 @@
-# installation 
+# Installation
 
-```git clone <repo link>```
-```cd Network-Traffic-Sonification```
+```bash
+git clone <repo link>
+cd Network-Traffic-Sonification
+```
 
-## create virtual enviroment 
+## Create virtual environment
 
-```python3 -m venv env ```
+```bash
+python3 -m venv env
+```
 
-# install the dependecy packages inside the vertual enviroment 
+## Install the dependency packages inside the virtual environment
 
-for windows 
+For Windows:
 
-```.\env\Scripts\actiavate```
+```bash
+.\env\Scripts\activate
+```
 
-for linux 
+For Linux:
 
-```source ./env/bin/active```
+```bash
+source ./env/bin/activate
+```
 
+## Install dependencies
 
-Install dependencies 
-
-```pip install -r requirments.txt ```
-
+```bash
+pip install -r requirements.txt
+```
