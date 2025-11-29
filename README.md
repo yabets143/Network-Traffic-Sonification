@@ -9,24 +9,15 @@ This project transforms network activity into an immersive audio experience, all
 
 ## Core Features
 
-
-Real-time packet capture from your network interface
-
-Customizable sound mappings for different protocols and packet attributes
-
-Stereo panning based on source IP addresses
-
-Dynamic volume control based on traffic intensity
-
-Aggregate sonification modes to prevent audio clutter
-
-Configurable parameters via command-line interface
-
+- Real-time packet capture from your network interface
+- Customizable sound mappings for different protocols and packet attributes
+- Stereo panning based on source IP addresses
+- Dynamic volume control based on traffic intensity
+- Aggregate sonification modes to prevent audio clutter
+- Configurable parameters via command-line interface
+- **Auto-detection of network interfaces** (new!)
 
 ## 🚀 Quick Start
-
-
-
 
 Clone the repository
 
@@ -51,32 +42,33 @@ Prerequisites
 
 ### Install required packages
 
-```
-pip install scapy pygame numpy
+```bash
+pip install -r requirements.txt
 ```
 
 ### Basic Usage
 
-⚠ for windows replace the GUID with yours on line 13 on the sonify.py 
+The tool now **auto-detects** your network interface. For Windows users, if auto-detection fails, you can manually specify your interface GUID.
 
-to find your specific default Wi-Fi interface GUID
-on powershell 
+To find your specific Wi-Fi interface GUID on Windows:
 ```powershell
 netsh wlan show interfaces
 ```
-then copy the GUID value
 
-
-Basic Usage
-```
-# Start monitoring with default settings (requires Admin privileges)
+Basic Usage:
+```bash
+# Start monitoring with default settings (requires Admin/root privileges)
 python sonify.py
+
+# Specify a network interface manually
+python sonify.py -i "eth0"  # Linux
+python sonify.py -i "{YOUR-INTERFACE-GUID}"  # Windows
 ```
 
-```
+```bash
 # Monitor only specific traffic
 python sonify.py -f "tcp port 80"      # HTTP only
-python sonify -f "icmp"             # Ping traffic only
+python sonify.py -f "icmp"             # Ping traffic only
 python sonify.py -f "udp port 53"      # DNS queries only
 
 # Limit capture to specific number of packets
@@ -86,8 +78,8 @@ python sonify.py -c 100                # Capture 100 packets
 python sonify.py -v quiet
 ```
 
+## 📖 Documentation
 
-
-
+For a comprehensive analysis of the project including identified issues, scalability concerns, and product-readiness assessment, see [PROJECT_ANALYSIS.md](PROJECT_ANALYSIS.md).
 
 
